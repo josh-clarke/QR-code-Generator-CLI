@@ -87,9 +87,15 @@ async function main() {
 
   try {
     const rendered = await terminalImage.file(filename, { width: "50%" });
-    console.log(rendered);
-  } catch {
-    console.log("(Terminal image preview not supported in this environment)");
+    // Kitty protocol writes directly to stdout and returns an empty string
+    if (typeof rendered === 'string' && rendered.length > 0) {
+      console.log(rendered);
+    } else if (rendered instanceof Promise) {
+      // term-img fallback is async but not awaited internally — resolve it manually
+      console.log(await rendered);
+    }
+  } catch (err) {
+    console.log(`(Terminal image preview unavailable: ${err.message})`);
   }
 }
 
