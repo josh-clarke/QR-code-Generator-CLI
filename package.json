@@ -2,7 +2,8 @@
   "dependencies": {
     "fs": "^0.0.1-security",
     "inquirer": "^9.3.8",
-    "qr-image": "^3.2.0"
+    "qr-image": "^3.2.0",
+    "terminal-image": "^4.3.0"
   },
   "name": "2.4-qr-code-project",
   "version": "1.0.0",
