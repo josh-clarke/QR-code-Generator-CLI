@@ -1,9 +1,9 @@
 
 import inquirer from 'inquirer';
 import qr from 'qr-image';
+import qrcode from 'qrcode';
 import fs from 'fs';
 import path from 'path';
-import terminalImage from 'terminal-image';
 
 const TYPES = {
   URL:        "URL",
@@ -87,18 +87,8 @@ async function main() {
   console.log(`\nSaved: ${absolutePath}`);
   console.log(`Data:  ${data}\n`);
 
-  try {
-    const rendered = await terminalImage.file(filename, { width: "50%" });
-    // Kitty protocol writes directly to stdout and returns an empty string
-    if (typeof rendered === 'string' && rendered.length > 0) {
-      console.log(rendered);
-    } else if (rendered instanceof Promise) {
-      // term-img fallback is async but not awaited internally — resolve it manually
-      console.log(await rendered);
-    }
-  } catch (err) {
-    console.log(`(Terminal image preview unavailable: ${err.message})`);
-  }
+  const ascii = await qrcode.toString(data, { type: 'terminal', small: true });
+  console.log(ascii);
 }
 
 main().catch((err) => {
