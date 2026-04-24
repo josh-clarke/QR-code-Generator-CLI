@@ -2,6 +2,7 @@
 import inquirer from 'inquirer';
 import qr from 'qr-image';
 import fs from 'fs';
+import path from 'path';
 import terminalImage from 'terminal-image';
 
 const TYPES = {
@@ -82,7 +83,8 @@ async function main() {
   });
 
   fs.writeFileSync("url_store.txt", data);
-  console.log(`\nSaved: ${filename}`);
+  const absolutePath = path.resolve(filename);
+  console.log(`\nSaved: ${absolutePath}`);
   console.log(`Data:  ${data}\n`);
 
   try {
